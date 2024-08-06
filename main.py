@@ -14,10 +14,10 @@ model = "llama-3.1-70b-versatile"
 with open("./ai_history.json") as file:
     default_history = json.load(file)
 
-def update_history(message:str, history:list):
+def update_history(message:str, history:list, role: str = "user"):
     history.append(
         {
-            "role": "user",
+            "role": role,
             "content": message
         }
     )
@@ -58,10 +58,9 @@ async def on_message(message: discord.Message):
         return
     if message.channel.id in ai_channels:
         await message.channel.trigger_typing()
-        messages=ai_channels[message.channel.id]
-        response = client.chat.completions.create(model=model,messages=update_history(message.content,messages), max_tokens=512)
-        response_text = response.choices[0].message.content
-        for chunk in fix_discord_message(response_text):
+        response = client.chat.completions.create(model=model,messages=update_history(message.content, ai_channels[message.channel.id]), max_tokens=512)
+        update_history(response.choices[0].message.content, ai_channels[message.channel.id], "assistant")
+        for chunk in fix_discord_message(response.choices[0].message.content):
             await message.channel.send(content=chunk)
 
 @bot.command(name="update")
