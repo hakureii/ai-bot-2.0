@@ -1,0 +1,35 @@
+name: bot-run
+
+on:
+  schedule:
+    - cron: '0 */5 * * *'
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout github
+        uses: actions/checkout@v4
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: install deps
+        run: |
+          pip install -r requirements.txt
+
+      - name: run the bot
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          GROQ: ${{ secrets.GROQ }}
+        run: |
+          export CONDITION="IM_THE_REASON"
+          touch "$CONDITION"
+          while [[ -f "$CONDITION" ]]; do
+            python3 main.py
+            git pull
+          done
+
