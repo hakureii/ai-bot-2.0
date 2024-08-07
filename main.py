@@ -29,6 +29,6 @@ async def on_message(message: discord.Message):
             ai.new_memory()
             return
     if message.channel == bot.get_channel(1270529190533271582):
-        await message.reply(ai.response(message.content))
+        await message.reply(content=ai.response(message.content)[:2000])
 
 bot.run(os.getenv("TOKEN"))
