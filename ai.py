@@ -7,9 +7,7 @@ class Ai:
         self.model = "llama-3.1-70b-versatile"
         # self.model = "llama3-70b-8192"
         self.client = Groq(api_key=os.getenv("GROQ"))
-        with open("system.json") as file:
-            import json
-            self.history = [json.load(file)]
+        self.new_memory()
 
     def response(self, message: str = ""):
         self.update_history(role="user",message=message)
@@ -28,6 +26,10 @@ class Ai:
                 "content": message
             }
         )
+    def new_memory(self):
+        with open("system.json") as file:
+            import json
+            self.history = [json.load(file)]
 
 ai = Ai()
 
