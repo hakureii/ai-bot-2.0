@@ -12,8 +12,6 @@ class Bot(commands.Bot):
 bot = Bot()
 ai = Ai()
 
-bot.load_extension("command")
-
 @bot.event
 async def om_ready():
     await asyncio.sleep(5*60*60)
