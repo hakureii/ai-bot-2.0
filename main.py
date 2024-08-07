@@ -25,8 +25,9 @@ async def on_message(message: discord.Message):
     if message.content.startswith("."):
         if message.content == ".update":
             await bot.close()
-        if message.content == ".newmeme":
+        if message.content == ".newmem":
             ai.new_memory()
+            return
     if message.channel == bot.get_channel(1270529190533271582):
         await message.reply(ai.response(message.content))
 
