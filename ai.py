@@ -5,7 +5,7 @@ from groq import Groq
 class Ai:
     def __init__(self):
         self.model = "llama-3.1-70b-versatile"
-        self.model = "llama3-70b-8192"
+        # self.model = "llama3-70b-8192"
         self.client = Groq(api_key=os.getenv("GROQ"))
         with open("system.json") as file:
             import json
